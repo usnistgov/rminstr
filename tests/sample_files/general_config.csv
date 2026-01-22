@@ -1,0 +1,49 @@
+key_0,key_1,key_2,key_3,value,type,comment
+,,,,,,
+run_settings_columns,names,,,Frequency_GHz,str,Required. column name in run settings file (order must match run settings file)
+run_settings_columns,names,,,Initial_source_power_dBm,str,Required. column name in run settings file (order must match run settings file)
+run_settings_columns,names,,,Target_source_power_dBm,str,Required. column name in run settings file (order must match run settings file)
+run_settings_columns,names,,,Source_power_limit_dBm,str,Required. column name in run settings file (order must match run settings file)
+,,,,,,
+run_settings_columns,types,,,float,str,Required. column data type in run settings file (order must match run settings file)
+run_settings_columns,types,,,float,str,Required. column data type in run settings file (order must match run settings file)
+run_settings_columns,types,,,float,str,Required. column data type in run settings file (order must match run settings file)
+run_settings_columns,types,,,float,str,Required. column data type in run settings file (order must match run settings file)
+,,,,,,
+stats_settings,use_traditional_stats,,,TRUE,bool,If True: use kendal test and runs test to check stability
+stats_settings,initial_wait,,,3600,float,time the program will spend warming up before the measurement at index 0 (units: seconds)
+stats_settings,minimum_wait,,,19200,float,minimum waiting time at each frequency point in seconds
+stats_settings,stats_window,,,900,float,"thermopile voltage must be stable over this time interval to proceed to next frequency point (units: seconds). If longer then minimum wait, then this is minimum wait."
+stats_settings,stats_Rcv,,,-3.4,float,used by runs test. higher = more stringent test
+stats_settings,stats_Tcv,,,0.25,float,used by Kendall test. Higher = more stringent
+stats_settings,measurement_interval,,,3,float,thermopile voltage sampling interval for computing stability stats in seconds
+,,,,,,
+output_settings,maxlen,,,3000,int,Required. maximum length of record (in samples)
+output_settings,minlen,,,2000,int,Required. minimum length of record (in samples. Should be large enough to ensure there is enough data for statistical tests.)
+output_settings,repo_path,,,Fake,str,path to git repo. For metadata
+,,,,,,
+output_settings,out_file_name,,,data.csv,str,name of data record
+output_settings,metadata_file_name,,,metadata.csv,str,name of metadata record
+output_settings,short_plot_time_window,,,600,float,in seconds
+output_settings,plot_interval,,,600,float,"time between updating plots, in seconds"
+,,,,,,
+measurement_description,connector_type,,,2.4,str,for traditional file header
+measurement_description,system,,,D,str,measurement system
+measurement_description,water_bath_temperature,,,23.5,str,water bath temperature in celsius
+measurement_description,notes,,,Prototype Run with Sidearm C24N129,str,for traditional file header
+measurement_description,calorimeter,,,24 Calorimeter Twinload Prototype,str,for traditional file header
+measurement_description,mount_name,,,S24S03,str,for traditional file header
+measurement_description,connect_number,,,0,str,for traditional file header
+measurement_description,lead_resistance,,,0,str,lead resistance in ohms. For header.
+measurement_description,DC_source_type,,,None,str,"options are: PTC_SMU, NTC_SMU, Type_IV, None"
+,,,,,,test for empy line with a comment
+levelling_settings,resistance,,,0,float,mount resistance in ohms
+levelling_settings,use_AM_levelling,,,FALSE,bool,"If true, use an analog voltage source and AM input to level power"
+levelling_settings,use_GPIB_levelling,,,FALSE,bool,"If true, use GPIB commands to level power"
+levelling_settings,AM_levelling_C,,,0.05,float,used for AM levelling. Should be between 0 and 1.
+levelling_settings,AM_levelling_time,,,3600,float,how long to use AM levelling
+levelling_settings,GPIB_levelling_C,,,0.05,float,used for signal generator levelling. Should be between 0 and 1.
+levelling_settings,GPIB_levelling_time,,,9000,float,"Duration of synthesizer levelling in seconds. After this time, AM levelling takes over"
+levelling_settings,max_source_power_change_dB,,,0.25,float,rf power will not change by more than this ammount in a levelling step
+levelling_settings,V_off_slow_min,,,2,float,"in volts. If V_off slow is less than this number, assume an error has occurred and stop the experiment"
+levelling_settings,V_off_slow_max,,,7,float,"in volts. If V_off slow is more than this number, assume an error has occurred and stop the experiment"

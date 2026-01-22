@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools>=80", "setuptools-scm[simple]>=8"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff.lint]
+ignore = ["F401","E501","F403","F841","E741","E721"]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+docstring-code-format = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.setuptools.packages.find]
+where = ["src"]  # list of folders that contain the packages (["."] by default)
+include = ["rminstr*"]  # package names should match these glob patterns (["*"] by default)
+exclude = [""]  # exclude packages matching these glob patterns (empty by default)
+namespaces = false
+
+[project]
+name = "rminstr"
+dynamic = ["version"]
+
+authors = [
+  {name="Daniel Cole Gray", email="daniel.c.gray@nist.gov" },
+  {name ="Aaron M. Hagerstrom", email = "aaron.hagerstrom@nist.gov"},
+  {name = "Zenn C. Roberts",email = "zenn.roberts@nist.gov"}
+]
+description = "A library for convenient instrumentation and measurement flow control."
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows"
+]
+
+dependencies = [
+  "pyvisa==1.14",
+  "pandas>=2.2.2,<3.0.0",
+  "numpy>=2.0.0",
+  "gitpython>=3.1.43",
+  "scipy>=1.14.0",
+  "matplotlib>=3.9.0",
+]
+
+[dependency-groups]
+dev = [
+    "astroid==3.3.8",
+    "ipython>=9.9.0",
+    "numpydoc==1.7.0",
+    "pre-commit>=4.5.1",
+    "pytest==8.3.3",
+    "pytest-cov>=6.1.1",
+    "ruff>=0.14.10",
+    "sphinx==7.4.0",
+    "sphinx-autoapi==3.6.0",
+    "sphinx-gallery==0.17.0",
+    "sphinx-multiversion>=0.2.4",
+]
+
+[tool.setuptools.package-data]
+rminstr = ["*.csv",'*.project','*.tsp']
+
+[tool.numpydoc_validation]
+checks = [
+    "all",   # report on all checks, except the below
+    "EX01",
+    "SA01",
+    "ES01",
+]
+# remember to use single quotes for regex in TOML
+exclude = [  # don't report on objects that match any of these regex
+    '\.undocumented_method$',
+    '\.__repr__$',
+]
+override_SS05 = [  # override SS05 to allow docstrings starting with these words
+    '^Process ',
+    '^Assess ',
+    '^Access ',
+]
