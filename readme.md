@@ -1,6 +1,4 @@
 # Rocky Mountain Instruments
-![coverage](https://gitlab.nist.gov/gitlab/rocky-mountain-suite/lib/rminstr/badges/development/coverage.svg)
-![pipeline](https://gitlab.nist.gov/gitlab/rocky-mountain-suite/lib/rminstr/badges/development/pipeline.svg)
 
 > [!NOTE]
 > This software is in active and early development by the RF power calibrations service at NIST to support
