@@ -8,7 +8,7 @@ from os.path import basename
 import math
 import copy
 
-__all__ = ['ExptParameters', 'ExptParametersReadError', 'get_config_as_dictionary']
+__all__ = ['ExptParameters', 'ExptParametersReadError', 'get_config_as_dictionary', 'save_dictionary_as_config']
 
 
 class ExptParametersReadError(Exception):
