@@ -8,7 +8,7 @@ from os.path import basename
 import math
 import copy
 
-__all__ = ['ExptParameters', 'ExptParametersReadError', 'get_config_as_dictionary']
+__all__ = ['ExptParameters', 'ExptParametersReadError', 'get_config_as_dictionary', 'save_dictionary_as_config']
 
 
 class ExptParametersReadError(Exception):
@@ -59,6 +59,7 @@ class ExptParameters:
         self,
         config_files: Union[str, list[str]],
         run_settings_file: str = None,
+        initial_dict: dict = None,
         config_file_priority: list[int] = None,
         header: int = 0,
         columns: list[str] = None,
@@ -79,7 +80,10 @@ class ExptParameters:
             files, use config_file_priority to determine which setting to use.
 
         run_settings_file : str
-            full path to run settings file
+            Full path to run settings file
+
+        initial_dict : dict
+            A dictionary to use to initialize the config before adding additional csv files
 
         config_file_priority : list[int], optional
             Indicates the priority of the corresponding (by order) config
@@ -87,16 +91,16 @@ class ExptParameters:
             all files have equal priority. The default is None.
 
         header : int, optional
-            number of lines to discard when reading run_settings. The default
+            Number of lines to discard when reading run_settings. The default
             is 0.
 
         columns : list[str], optional
-            names of columns in run settings file. The default is None.
+            Names of columns in run settings file. The default is None.
             If None, first check config file. If that fails, check run file for
             column names
 
         column_types : list[str], optional
-            data types for columns in run settings. The default is None.
+            Data types for columns in run settings. The default is None.
             If None, first check config file. If that fails, assume everything
             is a float.
 
@@ -110,7 +114,10 @@ class ExptParameters:
                 "WARNING: The new version doesn't use config_file_priority, but it is not none coming in so it is being ignored"
             )
 
-        self.config = None
+        if initial_dict is not None:
+            self.config = dict(initial_dict)
+        else:
+            self.config = None
 
         self.add_config_files(config_files)
         """dict: Stores experiment configuration"""
@@ -420,8 +427,9 @@ class ExptParameters:
                 return [keys], config, len(keys)
 
         config_copy = copy.deepcopy(self.config)
-        for i in range(0, len(self.columns)):
-            config_copy.pop(self.columns[i])
+        if self.columns is not None:
+            for i in range(0, len(self.columns)):
+                config_copy.pop(self.columns[i])
 
         keys, values, max_length = get_keys_values(None, config_copy, 0)
 
@@ -546,3 +554,8 @@ class ExptParameters:
 def get_config_as_dictionary(config_files):
     ep = ExptParameters(config_files)
     return ep.config
+
+def save_dictionary_as_config(dictionary, path):
+    ep = ExptParameters([], initial_dict = dictionary)
+    ep.save_config(path)
+    
