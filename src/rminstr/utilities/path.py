@@ -2,7 +2,7 @@
 """Module with custom pathing funcitons."""
 
 import os
-
+from pathlib import Path
 __all__ = ['validate_path', 'new_local_dir', 'new_dir']
 
 
@@ -106,8 +106,7 @@ def new_dir(base_dir: str, base_name: str):
 
     """
     cwd = base_dir
-    curr = next(os.walk(cwd))[1]
-    n = len([d for d in curr if base_name in d])
+    n = len([d for d in Path(cwd).iterdir() if base_name in d.stem])
 
     complete = False
     while not complete:
