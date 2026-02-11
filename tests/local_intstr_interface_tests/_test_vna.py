@@ -1,6 +1,6 @@
 """
 Cant test instruments with pytests, so storing here but it needs
-to be run manually while ocnnected to an instrument
+to be run manually while connected to an instrument
 """
 
 import numpy as np
