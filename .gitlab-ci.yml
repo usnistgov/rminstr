@@ -56,7 +56,7 @@ pages:
   - chmod +x ./tools/docs.sh
   - ./tools/docs.sh html-multiversioned-ci
   # UNCOMMENT THIS BLOCK WHEN IPAGES REPO IS READY
-  clone the ipages repo on github
+  # clone the ipages repo on github
   - git clone https://oauth2:$NIST_IPAGES_TOKEN@github.com/usnistgov/rminstr-ipages.git nist-pages
   - git config --global user.email "daniel.c.gray@nist.gov"
   - git config --global user.name "d-c-gray"
