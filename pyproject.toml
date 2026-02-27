@@ -29,7 +29,7 @@ authors = [
   {name = "Zenn C. Roberts",email = "zenn.roberts@nist.gov"}
 ]
 description = "A library for convenient instrumentation and measurement flow control."
-readme = "README.md"
+readme = "readme.md"
 requires-python = ">=3.12,<3.14"
 classifiers = [
     "Programming Language :: Python :: 3",
