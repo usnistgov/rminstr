@@ -21,14 +21,19 @@ def test_measurement_functionality_common_syntax():
     implementations = []
     methods = []
     reports = []
+    print('Checking Instrument Syntax Conventions :')
     for impl in instrument_iterator():
         abstract_methods = list(impl.abc.__abstractmethods__)
+        print('  ',impl.model)
         for am in abstract_methods:
+            print('    ',am)
             try:
                 report = impl.impl._check_method_syntax(am)
+                print('     ',report)
                 reports.append(report)
                 methods.append(am)
                 implementations.append(impl)
+                
             except Exception as e:
                 print(
                     'Error in generating syntax report for ',
