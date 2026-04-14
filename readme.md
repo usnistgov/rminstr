@@ -52,7 +52,7 @@ support multiple instrument models that provide similar functionalities.
 
 In addition to the library of instruments, the package provides some additional features for managing experiments like the
 * `ExperimentParameters` - a type safe csv based markup language for defining configuration files (can be edited in Excel).
-* `DataRecord` - a class for recording, managing, and retrieving timeseries data and metadatga collected from multiple instruments in human readable csv files.
+* `DataRecord` - a class for recording, managing, and retrieving timeseries data and metadata collected from multiple instruments in human readable csv files.
 
 ## Authors
 
