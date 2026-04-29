@@ -75,32 +75,21 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
         # panel configurations check
         self.panel_configurations = ['rear', 'front']
 
-        # KEITHLY Over Voltage settings
-        self.overvoltages = np.array(
-            [2, 5, 10, 20, 40, 60, 80, 100, 120, 140, 160, 180]
-        )
-
         # default setup
         self.default_setup_settings = {
-            # 'source': 'off',
-            # 'source_level': 0,
-            # 'source_range': 'auto',
-            # # 'source_ilimit': 106e-3,
-            # 'measure_range': 'auto',
-            # 'measure_autozero': True,
-            # 'over_voltage_protection': 0,
-            # 'measure_for_duration_or_count': 'count',
-            # 'duration_per_level': 1,
-            # 'count_per_level': 1,
-            # 'nplc': 1,
-            # 'source_readback': True,
-            # 'source_delay': 'auto',
-            # 'buffer_size': 1e6,
-            # 'buffer_fill_mode': 'fill_once',
-            # 'initial_level_duration': -1,  # turns off the setting by default
+            'source': 'off',
+            'source_level': 0,
+            # 'source_ilimit': 106e-3,
+            'measure_range': 'auto',
+            'over_voltage_protection': 0,
+            'nplc': 1,
+
+            'source_delay': 'auto',
         }
 
         # things it needs to keep track of
+        # these are used to formulate SCIP commands based on if
+        # voltage or current is being source or measured.
         self.source_as: str | None = None # 'VOLT' or 'CURR'
         self.measure_as: str | None = None # 'VOLT' or 'CURR'
 
@@ -354,16 +343,10 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
 
         # set source range
         if source_range is not None:
-            if source_range == 'auto':
-                raise NotImplementedError()
-            else:
-                raise NotImplementedError()
+            raise NotImplementedError('Source ranging not implemented. Always auto.')
 
         if measure_autozero is not None:
-            if measure_autozero:
-                raise NotImplementedError()
-            else:
-                raise NotImplementedError()
+            raise NotImplementedError("Autozero settings not implemented.")
 
         # set over protection
         if over_voltage_protection is not None:
