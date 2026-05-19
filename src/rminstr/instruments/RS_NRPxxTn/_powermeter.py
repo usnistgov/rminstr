@@ -340,7 +340,7 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
         if self.state == 'measuring':
             stb = self.read_stb()
             opc = get_bit(stb, 32)
-            print(stb, opc)
+            # print(stb, opc)
             if opc:
                 self.state = 'data_available'
                 return 'data_available'
