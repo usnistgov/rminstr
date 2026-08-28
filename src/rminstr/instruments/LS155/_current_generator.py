@@ -52,6 +52,7 @@ class CurrentGenerator(Instrument, ABC_CurrentGenerator):
             'over_voltage_protection': 1,
             'current_level': 0,
             'source': True,
+            'output': False
         }
 
     def initial_setup(self, panel: str = None, **kwargs):
@@ -102,6 +103,7 @@ class CurrentGenerator(Instrument, ABC_CurrentGenerator):
         over_voltage_protection: float = None,
         current_level: float = None,
         source: bool = None,
+        output: bool = None,
         other_commands: list = None,
         **kwargs,
     ):
@@ -129,7 +131,10 @@ class CurrentGenerator(Instrument, ABC_CurrentGenerator):
             The current amplitude to source in A. The default is None.
 
         source : bool, optional
-            Turns source on when True, off when False. The default is True.
+            Sets the source to adjust its state when a trigger command is sent.
+        
+        output : bool, optional
+            Sets the ouput on (TRUE) or off (False)
 
         other_commands : list, optional
             List of other command not covered by keyword arguments. Written directly to instrument. The default is None.
@@ -170,6 +175,10 @@ class CurrentGenerator(Instrument, ABC_CurrentGenerator):
 
         if source is not None:
             self.output_on_trigger = str(int(source))
+        
+        # print(output)
+        if output is not None:
+            self.write('OUTP:STAT ' + str(int(output)))
 
         if other_commands is not None:
             for oc in other_commands:
