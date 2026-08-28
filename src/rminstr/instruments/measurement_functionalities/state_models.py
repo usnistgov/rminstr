@@ -377,7 +377,7 @@ class Triggerable(SetupOnly, abc.ABC):
         None.
         """
         if self.state != 'unarmed':
-            _state_warning(self.state, 'setup', __file__, 45, 5)
+            _state_warning(self.state, 'arm', __file__, 45, 5)
         self.state = 'armed'
         for k in kwargs.keys():
             if kwargs[k] is not None:
@@ -405,7 +405,7 @@ class Triggerable(SetupOnly, abc.ABC):
         None.
         """
         if self.state != 'armed':
-            _state_warning(self.state, 'setup', __file__, 45, 5)
+            _state_warning(self.state, 'trigger', __file__, 45, 5)
         self.state = 'measuring'
         for k in kwargs.keys():
             if kwargs[k] is not None:
@@ -429,7 +429,7 @@ class Triggerable(SetupOnly, abc.ABC):
         None.
         """
         if self.state != 'data_available':
-            _state_warning(self.state, 'setup', __file__, 45, 5)
+            _state_warning(self.state, 'fetch_data', __file__, 45, 5)
         self.state = 'unarmed'
         for k in kwargs.keys():
             if kwargs[k] is not None:
