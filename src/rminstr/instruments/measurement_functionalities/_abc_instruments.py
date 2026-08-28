@@ -293,6 +293,7 @@ class ABC_CurrentGenerator(Triggerable, abc.ABC):
             'over_voltage_protection',
             'current_level',
             'source',
+            'output',
             'other_commands',
         ],
         'arm': [],
