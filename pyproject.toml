@@ -2,8 +2,15 @@
 requires = ["setuptools>=80,<81", "setuptools-scm[simple]>=8,<9"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools_scm]
+root = "."
+
 [tool.ruff.lint]
 ignore = ["F401","E501","F403","F841","E741","E721"]
+
+[tool.setuptools]
+# This tells setuptools to look for packages inside the 'src' directory
+package-dir = {"" = "src"}
 
 [tool.ruff.format]
 quote-style = "single"
@@ -33,7 +40,6 @@ readme = "readme.md"
 requires-python = ">=3.12,<3.14"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: Microsoft :: Windows"
 ]
 
