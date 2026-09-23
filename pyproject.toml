@@ -49,23 +49,31 @@ dependencies = [
   "numpy>=2.0.0",
   "gitpython>=3.1.43",
   "scipy>=1.14.0",
-  "matplotlib>=3.9.0",
+  "matplotlib>=3.9.0"
 ]
 
 [dependency-groups]
 dev = [
-    "astroid==3.3.8",
+    "astroid>=3.3.8",
     "ipython>=9.9.0",
     "numpydoc>=1.7.0",
     "pre-commit>=4.5.1",
-    "pytest==8.3.3",
+    "pytest>=8.3.3",
     "pytest-cov>=6.1.1",
     "ruff>=0.14.10",
-    "sphinx==7.4.0",
-    "sphinx-autoapi==3.6.0",
-    "sphinx-gallery==0.17.0",
+    "sphinx>=7.4.0",
+    "sphinx-autoapi>=3.6.0",
+    "sphinx-gallery>=0.17.0",
     "sphinx-multiversion>=0.2.4",
+    "pip-audit>=2.10.1",
+    "bandit>=1.9.4"
 ]
+
+[tool.bandit]
+targets = ["src/rminstr"]
+skips = ["B101"] # B101 is a warning that assert is used, not a security risk
+
+
 
 [tool.setuptools.package-data]
 rminstr = ["*.csv",'*.project','*.tsp']
