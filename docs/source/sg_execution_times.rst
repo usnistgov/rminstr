@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:02.402** total execution time for 3 files **from all galleries**:
+**00:01.535** total execution time for 3 files **from all galleries**:
 
 .. container::
 
@@ -32,12 +32,12 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_auto_examples_plot_e11_data_record.py` (``..\examples\plot_e11_data_record.py``)
-     - 00:02.356
+   * - :ref:`sphx_glr_auto_examples_plot_e11_data_record.py` (``../examples/plot_e11_data_record.py``)
+     - 00:01.506
      - 0.0
-   * - :ref:`sphx_glr_auto_examples_plot_e12_exptparameters.py` (``..\examples\plot_e12_exptparameters.py``)
-     - 00:00.045
+   * - :ref:`sphx_glr_auto_examples_plot_e12_exptparameters.py` (``../examples/plot_e12_exptparameters.py``)
+     - 00:00.029
      - 0.0
-   * - :ref:`sphx_glr_auto_examples_e00_instrument_interfaces.py` (``..\examples\e00_instrument_interfaces.py``)
+   * - :ref:`sphx_glr_auto_examples_e00_instrument_interfaces.py` (``../examples/e00_instrument_interfaces.py``)
      - 00:00.000
      - 0.0

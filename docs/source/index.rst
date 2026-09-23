@@ -1,20 +1,20 @@
-Welcome to Rocky Mountain Instrument's documentation!
-=====================================================
+rminstr
+=======
 This package is a library of instrument control and data collection code.
 Instruments capable of providing the same service have control classes with
 a shared syntax, allowing similar instruments to be easily swapped into
-experiment scripts. 
+experiment scripts.
 
-For example, suppose you have a nanavoltmeter (an HP 34420A in this example) and an a
+For example, suppose you have a nano voltmeter (an HP 34420A in this example) and an a
 digital multi-meter (HP 3458A in this example). While these instruments are slightly different, they
 can both be configured to behave like a voltmeter in an experiment. In this package, both instruments
-have a measurement functionality called ``voltmeter`` defined. This means that interacting with the digital
-multi-meter's ``voltmeter`` measurement functionality
+have a measurement functionality called `Voltmeter` defined. This means that interacting with one instrument
+model that can act as a `Voltmeter`,
 
 .. code-block:: python
 
-   from rminstr.instruments.HP3458A import voltmeter
-   vm = voltmeter('GPIB::16::INSTR')
+   from rminstr.instruments.HP3458A import Voltmeter
+   vm = voltmeteroltmeter('GPIB::16::INSTR')
    vm.initial_setup()
    vm.setup(vrange = 1, nplc = 1)
    vm.arm()
@@ -22,7 +22,7 @@ multi-meter's ``voltmeter`` measurement functionality
    vm.wait_until_data_available(timeout = 10)
    data = vm.fetch_data()
 
-is identical to the code to interact with a nanovoltmeter's ``voltmeter`` measurement functionality.
+is identical to the code to interact with a nanovoltmeter's ``Voltmeter`` measurement functionality.
 
 .. code-block:: python
 
@@ -36,13 +36,14 @@ is identical to the code to interact with a nanovoltmeter's ``voltmeter`` measur
    data = vm.fetch_data()
 
 
+
 The basic idea of the package, is that any instruments which share a measurement functionality - this could be
-``voltmeter``, ``ammeter``, ``signal_generator``,  etc - can be swapped at the import statement and still function. This makes
+``Voltmeter``, ``Ammeter``, etc - can be swapped at the import statement and still function. This makes
 it very easy to develop readable, straight forward flow control scripts that can be very quickly adapted to
 support multiple instrument models that provide similar functionalities.
 
 Finally, the package provides some additional features for managing experiments like
-``experiment_parameters`` - a method of defining Python dictionaries via CSV files for configuring experiments - and ``data_record`` -
+``ExperimentParameters`` - a method of defining Python dictionaries via CSV files for configuring experiments - and ``DataRecord`` -
 a structure for storing timeseries measurements of multiple instruments taken through out an experiment to CSV
 and prevents the programs memory from filling up.
 
