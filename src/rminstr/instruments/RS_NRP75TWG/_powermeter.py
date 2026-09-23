@@ -1,11 +1,13 @@
 """RS NRP75TWG Powermeter."""
 
-import pyvisa as visa
-import numpy as np
 import time
-from rminstr.instruments.measurement_functionalities import ABC_RFPowerMeter
-from rminstr.instruments.communications import Instrument, InstrumentError, SettingError
 from typing import Union
+
+import numpy as np
+import pyvisa as visa
+
+from rminstr.instruments.communications import Instrument, InstrumentError, SettingError
+from rminstr.instruments.measurement_functionalities import ABC_RFPowerMeter
 
 
 class RFPowerMeter(Instrument, ABC_RFPowerMeter):
@@ -63,7 +65,6 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
         # stuff for multiple readings
         self._in_thread = False
         self._trig_bot = None
-        pass
 
     def initial_setup(self, **kwargs):
         """
@@ -134,7 +135,7 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
         integration_time: int = None,
         average_state: int = None,
         zero_once: bool = None,
-        trig_delay: Union[float, str] = None,
+        trig_delay: float | str = None,
         **kwargs,
     ):
         """

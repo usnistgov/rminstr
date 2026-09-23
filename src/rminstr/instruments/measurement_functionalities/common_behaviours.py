@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Reusable behaviours that can be applied to instrument abstractions.
 
@@ -7,11 +6,11 @@ is in a certain state, saving key word arguments of a method to a dictionary def
 by a class attribute, and having certain methods change the state of the instrument afer being called.
 """
 
-import warnings
+import logging
 import sys
 import traceback
-import logging
-from typing import Callable
+import warnings
+from collections.abc import Callable
 from functools import wraps
 
 

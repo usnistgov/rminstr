@@ -1,8 +1,8 @@
-
-import pyvisa as visa
-from rminstr.instruments.measurement_functionalities import ABC_SMUSourceSweep
-from rminstr.instruments.communications import Instrument, InstrumentError, get_bit
 import numpy as np
+import pyvisa as visa
+
+from rminstr.instruments.communications import Instrument, InstrumentError, get_bit
+from rminstr.instruments.measurement_functionalities import ABC_SMUSourceSweep
 
 
 def is_iter(x):
@@ -83,15 +83,14 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
             'measure_range': 'auto',
             'over_voltage_protection': 0,
             'nplc': 1,
-
             'source_delay': 'auto',
         }
 
         # things it needs to keep track of
         # these are used to formulate SCIP commands based on if
         # voltage or current is being source or measured.
-        self.source_as: str | None = None # 'VOLT' or 'CURR'
-        self.measure_as: str | None = None # 'VOLT' or 'CURR'
+        self.source_as: str | None = None  # 'VOLT' or 'CURR'
+        self.measure_as: str | None = None  # 'VOLT' or 'CURR'
 
     def initial_setup(
         self,
@@ -133,7 +132,7 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
 
         self.write('*RST;*CLS')
         self.write(':STATus:QUEue:CLEar')
-        
+
         # wiring and source measure configurations
         if wiring not in self.wiring_configurations:
             raise InstrumentError('wiring configuration not recognized')
@@ -165,8 +164,6 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
             self.measure_as = 'CURR'
             self.write(':SENSe:FUNCtion:ON "CURR","VOLT"')
 
-    
-
         # # assign rear panels
         if panel == 'rear':
             self.write(':ROUTe:TERMinals REAR')
@@ -178,8 +175,7 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
         # leave source on after taking a measurement
         self.write(':SOURce:CLEar:AUTO 0')
 
-
-        # these bits (machine is in idle and readings are available) will be used to 
+        # these bits (machine is in idle and readings are available) will be used to
         # check if machine is in data available state
         # have the OSB bit of the STB set high if instrument is in idle (bit 10 of the operation event register)
         self.write(f':stat:oper:enab {2**10}')
@@ -190,7 +186,6 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
         self.state = 'init'
         self.setup(**self.default_setup_settings)
         self.state = 'init'
-
 
     # PLEASE READ BEFORE CHANGING::
     # I made the default keyword arguments function a little differently here
@@ -330,10 +325,10 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
 
         # cast to list if not an iterable, None, or 'auto'
         if source_trigger_levels is not None:
-            raise NotImplementedError("source_trigger_levels not implemented.")
+            raise NotImplementedError('source_trigger_levels not implemented.')
 
         if source_ilimit is not None:
-            raise NotImplementedError("source_ilimit not implemented.")
+            raise NotImplementedError('source_ilimit not implemented.')
 
         if measure_range is not None:
             if measure_range == 'auto':
@@ -346,11 +341,11 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
             raise NotImplementedError('Source ranging not implemented. Always auto.')
 
         if measure_autozero is not None:
-            raise NotImplementedError("Autozero settings not implemented.")
+            raise NotImplementedError('Autozero settings not implemented.')
 
         # set over protection
         if over_voltage_protection is not None:
-            self.write(f':SOURce:VOLTage:PROTection {over_voltage_protection }')
+            self.write(f':SOURce:VOLTage:PROTection {over_voltage_protection}')
 
         # set source level
         if source_level is not None:
@@ -358,13 +353,12 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
 
         # set power line cycle integration
         if nplc is not None:
-            if nplc > 10: 
+            if nplc > 10:
                 raise InstrumentError('nplc out of range')
-            if nplc < 0.1: 
+            if nplc < 0.1:
                 raise InstrumentError('nplc out of range.')
             self.write(f'CURRent:NPLCycles {nplc}')
             self.write(f'VOLT:NPLCycles {nplc}')
-
 
         # source_readback
         if source_readback is not None:
@@ -382,15 +376,16 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
         # measuring for count sets duration per_level to 0
 
         try:
-            measure_for_duration_or_count = self.setup_settings['measure_for_duration_or_count'] 
+            measure_for_duration_or_count = self.setup_settings[
+                'measure_for_duration_or_count'
+            ]
         except KeyError:
             measure_for_duration_or_count = None
-        
-        if measure_for_duration_or_count == 'count':
-            raise NotImplementedError()
 
-
-        elif measure_for_duration_or_count == 'duration':
+        if (
+            measure_for_duration_or_count == 'count'
+            or measure_for_duration_or_count == 'duration'
+        ):
             raise NotImplementedError()
             # if duration_per_level is not None:
             #     if duration_per_level > 10000:
@@ -434,7 +429,6 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
         if buffer_fill_mode is not None:
             raise NotImplementedError()
 
-
     def arm(
         self,
         delay: float = 0,
@@ -463,7 +457,6 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
         self.write(':INIT')
         # self.write('*OPC')
 
-
     def trigger(self):
         """
         Trigger the SMU.
@@ -479,9 +472,7 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
         self.state = 'measuring'
         # pass
 
-    def fetch_data(
-        self
-    ) -> dict[np.ndarray]:
+    def fetch_data(self) -> dict[np.ndarray]:
         """
         Fetch data from the buffer.
 
@@ -513,16 +504,16 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
             time.append(float(sline[3]))
             status.append(float(sline[4]))
 
-
         data = {
             'timestamp': np.array(time),
             'Voltage (V)': np.array(volts),
             'Current (A)': np.array(current),
         }
 
-        data['timestamp'] = data['timestamp'] - data['timestamp'][0] + self.meas_start_time
+        data['timestamp'] = (
+            data['timestamp'] - data['timestamp'][0] + self.meas_start_time
+        )
         return data
-
 
     def query_state(self):
         """
@@ -535,8 +526,8 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
 
         """
         if self.state == 'measuring':
-            stb= self.visa_resource.read_stb()
-            osb_high = get_bit(stb,2**7)
+            stb = self.visa_resource.read_stb()
+            osb_high = get_bit(stb, 2**7)
             msb_high = get_bit(stb, 2**0)
             if osb_high and msb_high:
                 self.state = 'data_available'
@@ -553,7 +544,6 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
         """
         msg = self.query(':SYSTem:ERRor:ALL?')
         return msg
-
 
     def raise_errors(self):
         errors = self.get_errors()
@@ -574,22 +564,21 @@ class SMUSourceSweep(Instrument, ABC_SMUSourceSweep):
         self.state = 'measuring'
         self.write('*OPC')
         self.meas_start_time = self.get_relative_time()
-        pass
 
-    
     def close(self):
         self.write(':OUTPut 0')
         super().close()
 
-if __name__ =='__main__':
+
+if __name__ == '__main__':
     smu = SMUSourceSweep('GPIB0::3::INSTR')
 
     # print(smu.query_state())
     smu.raise_errors()
-    smu.initial_setup(wiring = '4W', source_measure = 'SIMV', panel = 'front')
+    smu.initial_setup(wiring='4W', source_measure='SIMV', panel='front')
     # print(smu.query_state())
     smu.raise_errors()
-    smu.setup(source_level = 1e-6, source = 'on', nplc = 10)
+    smu.setup(source_level=1e-6, source='on', nplc=10)
     # print(smu.query_state())
     smu.raise_errors()
     for i in range(10):
@@ -597,7 +586,7 @@ if __name__ =='__main__':
         # print(smu.query_state())
         smu.trigger()
         # print(smu.query_state())
-        smu.wait_until_data_available(timeout = 10)
+        smu.wait_until_data_available(timeout=10)
         smu.raise_errors()
         print(smu.query_state())
         smu.raise_errors()

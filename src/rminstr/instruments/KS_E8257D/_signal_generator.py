@@ -1,8 +1,9 @@
 """Signal generator implementation of KS_E8257D."""
 
 import pyvisa as visa
-from rminstr.instruments.measurement_functionalities import ABC_SignalGenerator
+
 from rminstr.instruments.communications import Instrument, InstrumentError
+from rminstr.instruments.measurement_functionalities import ABC_SignalGenerator
 
 
 class SignalGenerator(Instrument, ABC_SignalGenerator):
@@ -200,7 +201,6 @@ class SignalGenerator(Instrument, ABC_SignalGenerator):
         err_code = int(err_str.split(',')[0])
         if err_code != 0:
             raise InstrumentError(err_str)
-        pass
 
     def get_errors(self):
         """
@@ -220,7 +220,6 @@ class SignalGenerator(Instrument, ABC_SignalGenerator):
 
     def fetch_data(self):
         """Do nothing, this class collects no data."""
-        pass
 
     def get_frequency(self):
         """Return the frequency in GHz."""

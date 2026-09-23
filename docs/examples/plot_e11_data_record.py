@@ -11,8 +11,9 @@ any data in the memory to the target directory in the event of
 an exception or error.
 """
 
-from rminstr.data_structures import ActiveRecord, ExistingRecord
 import time
+
+from rminstr.data_structures import ActiveRecord, ExistingRecord
 
 with ActiveRecord(
     ['column_1', 'column_2'], output_dir='outputs', maxlen=100, minlen=10

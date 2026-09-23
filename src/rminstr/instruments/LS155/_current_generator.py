@@ -1,8 +1,9 @@
 """Lakeshore 155 source generator."""
 
 import pyvisa as visa
+
+from rminstr.instruments.communications import Instrument, InstrumentError, get_bit
 from rminstr.instruments.measurement_functionalities import ABC_CurrentGenerator
-from rminstr.instruments.communications import Instrument, get_bit, InstrumentError
 
 
 class CurrentGenerator(Instrument, ABC_CurrentGenerator):
@@ -52,7 +53,7 @@ class CurrentGenerator(Instrument, ABC_CurrentGenerator):
             'over_voltage_protection': 1,
             'current_level': 0,
             'source': True,
-            'output': False
+            'output': False,
         }
 
     def initial_setup(self, panel: str = None, **kwargs):
@@ -132,7 +133,7 @@ class CurrentGenerator(Instrument, ABC_CurrentGenerator):
 
         source : bool, optional
             Sets the source to adjust its state when a trigger command is sent.
-        
+
         output : bool, optional
             Sets the ouput on (TRUE) or off (False)
 
@@ -175,7 +176,7 @@ class CurrentGenerator(Instrument, ABC_CurrentGenerator):
 
         if source is not None:
             self.output_on_trigger = str(int(source))
-        
+
         # print(output)
         if output is not None:
             self.write('OUTP:STAT ' + str(int(output)))
@@ -257,7 +258,6 @@ class CurrentGenerator(Instrument, ABC_CurrentGenerator):
         err_code = int(err_str.split(',')[0])
         if err_code != 0:
             raise InstrumentError(err_str)
-        pass
 
     def get_errors(self):
         """

@@ -2,6 +2,7 @@
 
 import abc
 import time
+
 from pyvisa import VisaIOError
 
 

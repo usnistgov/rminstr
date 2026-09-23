@@ -1,34 +1,29 @@
-# -*- coding: utf-8 -*-
 """
 TSPRunner is a set of protocols for interacting with TSP enabled instruments.
 
 TSPRunner inherits from the base instrument class, and utilizes pyvisa.
 """
 
-import time
-import numpy as np
-from rminstr.instruments.communications import Instrument, InstrumentError
 import sys
-from typing import Union
+import time
 from os.path import dirname, join
+from typing import Union
+
+import numpy as np
+
+from rminstr.instruments.communications import Instrument, InstrumentError
 
 
 class BusyError(Exception):
     """Raise when trying to command a TSP instrument that is busy."""
 
-    pass
-
 
 class StatusByteError(Exception):
     """Raise when trying to command a TSP instrument has an incorrect status byte."""
 
-    pass
-
 
 class SMUTimeoutError(Exception):
     """Raise when timeouts occur during specieal read methods for TSP instruments."""
-
-    pass
 
 
 # %% Tsp Wrapper class
@@ -167,7 +162,7 @@ class TSPRunner(Instrument):
         # I'm adding an ignore to the linter here
         # because it throws errors, and this has been
         # around for a long time.
-        except Exception as e:  # noqa: E722
+        except Exception as e:
             out_bit = 0
         return out_bit
 
@@ -236,10 +231,9 @@ class TSPRunner(Instrument):
                 message = template.format(type(ex).__name__, ex.args)
                 print(message)
                 self.tsp_trace()
-                pass
         # so logs don't get filled with empy lines on repeat calls
         if not self.busy and termination_str_count > 0 and self.logs:
-            print('')
+            print()
 
         return self.busy
 
@@ -340,7 +334,7 @@ class TSPRunner(Instrument):
                 print(str(severity) + ' ' + str(event) + ', ' + descr + '')
 
     # assign val to global variable varname in volatile memory
-    def assign(self, varname: str, val: Union[int, float]):
+    def assign(self, varname: str, val: float):
         """
         Assign a variable to the TSP instruments global variable space.
 
@@ -506,7 +500,6 @@ class TSPRunner(Instrument):
                     print(message)
                     iFails += 1
                     data = 0
-                    pass
             # print count of failed reads
             if self.logs:
                 sys.stdout.write('\rFailed buffer reads: %i' % (iFails + 1))
@@ -517,7 +510,7 @@ class TSPRunner(Instrument):
         # print('cleaning up')
         # self.tsp_trace()
         if self.logs:
-            print('')
+            print()
         if not read:
             raise SMUTimeoutError('Timeout on printBuffer read')
 
@@ -542,7 +535,6 @@ class TSPRunner(Instrument):
             self.flush_readout()
             self.tsp_trace()
             self.write('eventlog.clear()')
-            pass
 
         if deleteBuffer:
             self.write('buffer.delete(bf)')

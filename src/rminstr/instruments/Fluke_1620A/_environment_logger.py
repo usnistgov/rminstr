@@ -1,17 +1,19 @@
 """Module for using a Fluke 1620A as an enviornment logger."""
 
-import pyvisa as visa
-import time
-import numpy as np
 import logging
-from rminstr.utilities.graphics import progressbar
-from rminstr.instruments.measurement_functionalities import ABC_EnvironmentLogger
-from rminstr.instruments.communications import Instrument, InstrumentError
+import time
 from datetime import datetime
 from itertools import cycle
 
+import numpy as np
+import pyvisa as visa
+
+from rminstr.instruments.communications import Instrument, InstrumentError
+from rminstr.instruments.measurement_functionalities import ABC_EnvironmentLogger
+from rminstr.utilities.graphics import progressbar
 
 logger = logging.getLogger(__name__)
+
 
 def _format_date_for_input(date: datetime):
     out = str(date.year)
@@ -302,9 +304,10 @@ class EnvironmentLogger(Instrument, ABC_EnvironmentLogger):
                     last_sample = -1
                     min_l = min(lengths.values())
                     if not all([l == min_l for l in lengths.values()]):
-                        
                         delta = max([(l - min_l) for l in lengths.values()])
-                        logger.info(f"Truncating {delta} corrupted samples on {out[s + '_id']} .")
+                        logger.info(
+                            f'Truncating {delta} corrupted samples on {out[s + "_id"]} .'
+                        )
                         last_sample = min_l
 
                     if until is not None:
@@ -317,8 +320,6 @@ class EnvironmentLogger(Instrument, ABC_EnvironmentLogger):
                                 out[k] = v[:min_l][ind]
                             except IndexError as e:
                                 raise e from e
-                        
-
 
             # pack into a nicer format
             tempout = {}
@@ -615,7 +616,6 @@ class EnvironmentLogger(Instrument, ABC_EnvironmentLogger):
                         len(out['s2_hum']),
                     )
                     print('    cycle count ', cycle_count)
-                    pass
             except TypeError:
                 print('Block ', i)
                 print('-------------')

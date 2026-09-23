@@ -1,14 +1,20 @@
 """ExptParameters module."""
 
 import builtins
-import pandas as pd
-import numpy as np
-from typing import Union
-from os.path import basename
-import math
 import copy
+import math
+from os.path import basename
+from typing import Union
 
-__all__ = ['ExptParameters', 'ExptParametersReadError', 'get_config_as_dictionary', 'save_dictionary_as_config']
+import numpy as np
+import pandas as pd
+
+__all__ = [
+    'ExptParameters',
+    'ExptParametersReadError',
+    'get_config_as_dictionary',
+    'save_dictionary_as_config',
+]
 
 
 class ExptParametersReadError(Exception):
@@ -57,7 +63,7 @@ class ExptParameters:
 
     def __init__(
         self,
-        config_files: Union[str, list[str]],
+        config_files: str | list[str],
         run_settings_file: str = None,
         initial_dict: dict = None,
         config_file_priority: list[int] = None,
@@ -142,7 +148,7 @@ class ExptParameters:
         """dict[str, list]: stores run settings"""
 
         # I added this in because I want to use the config file reader without having to give it empty runsettings files
-        if run_settings_file != None:  # noqa: E711
+        if run_settings_file is not None:
             self.load_run_settings(run_settings_file, header)
 
     def add_config_files(self, config_files):
@@ -174,8 +180,8 @@ class ExptParameters:
                 )
             )
 
-        for h in range(0, len(data)):
-            for i in range(0, len(data[h])):
+        for h in range(len(data)):
+            for i in range(len(data[h])):
                 try:
                     df_slice = data[h].loc[i]
                     df_slice_keys = df_slice.loc[
@@ -192,7 +198,7 @@ class ExptParameters:
                     key_value_array = df_slice_keys.loc[df_slice_keys.index].to_numpy()
                     # non_nan_index = [math.isnan(key_value_array[i]) for i in range(0, len(key_value_array))]
                     non_nan_index = []
-                    for i in range(0, len(key_value_array)):
+                    for i in range(len(key_value_array)):
                         try:
                             isnan = math.isnan(key_value_array[i])
                             non_nan_index.append(not isnan)
@@ -223,7 +229,7 @@ class ExptParameters:
 
                         temp_dict = self.config
 
-                        for j in range(0, len(df_slice_keys_nonan) - 1):
+                        for j in range(len(df_slice_keys_nonan) - 1):
                             try:
                                 temp_dict = temp_dict[
                                     df_slice_keys_nonan.loc[
@@ -300,7 +306,7 @@ class ExptParameters:
                     # failed so its not a pain to debug the config file
                 except Exception as e:
                     msg = f'\nExptParametersReadError occured @ {basename(config_files[i])} : \n{data[h].loc[i]} :\n'
-                    msg += f'Caught Exception: {str(type(e).__name__)}: {e}'
+                    msg += f'Caught Exception: {type(e).__name__!s}: {e}'
                     raise ExptParametersReadError(msg) from e
 
     def load_run_settings(self, in_file, header: int = 0):
@@ -405,8 +411,7 @@ class ExptParameters:
                     keys_out, value_out, max_length_out = get_keys_values(
                         keys_in, config[i], max_length
                     )
-                    if max_length_out > max_length:
-                        max_length = max_length_out
+                    max_length = max(max_length, max_length_out)
                     if type(value_out) is not list:
                         value_out = [value_out]
                     if keys_temp is None:
@@ -420,7 +425,7 @@ class ExptParameters:
             elif type(config) == list:
                 keys_temp = [keys] * len(config)
                 values = []
-                for i in range(0, len(config)):
+                for i in range(len(config)):
                     values.append(config[i])
                 return keys_temp, values, max_length
             else:
@@ -428,19 +433,19 @@ class ExptParameters:
 
         config_copy = copy.deepcopy(self.config)
         if self.columns is not None:
-            for i in range(0, len(self.columns)):
+            for i in range(len(self.columns)):
                 config_copy.pop(self.columns[i])
 
         keys, values, max_length = get_keys_values(None, config_copy, 0)
 
         column_names = []
-        for i in range(0, max_length):
+        for i in range(max_length):
             column_names.append('key_' + str(i))
 
         column_names.append('value')
         column_names.append('type')
 
-        for i in range(0, len(keys)):
+        for i in range(len(keys)):
             keys[i] = (
                 keys[i]
                 + [float('nan')] * (max_length - len(keys[i]))
@@ -555,7 +560,7 @@ def get_config_as_dictionary(config_files):
     ep = ExptParameters(config_files)
     return ep.config
 
+
 def save_dictionary_as_config(dictionary, path):
-    ep = ExptParameters([], initial_dict = dictionary)
+    ep = ExptParameters([], initial_dict=dictionary)
     ep.save_config(path)
-    

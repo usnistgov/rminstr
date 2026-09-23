@@ -5,7 +5,6 @@ to be run manually while connected to an instrument
 
 import numpy as np
 
-
 if __name__ == '__main__':
     # Change the VNA type to check if its working
     from rminstr.instruments.KS_PNA import VNA

@@ -1,11 +1,13 @@
-# -*- coding: utf-8 -*-
 """Voltage generator implementation of a DP8200."""
 
-import pyvisa as visa
-from rminstr.instruments.measurement_functionalities import ABC_VoltageGenerator
-from rminstr.instruments.communications import Instrument
 from bisect import bisect_right
 from decimal import Decimal
+
+import pyvisa as visa
+
+from rminstr.instruments.communications import Instrument
+from rminstr.instruments.measurement_functionalities import ABC_VoltageGenerator
+
 
 class VoltageGenerator(Instrument, ABC_VoltageGenerator):
     """Implementation of the Fluke 5720A as a voltage generator."""
@@ -52,7 +54,6 @@ class VoltageGenerator(Instrument, ABC_VoltageGenerator):
         self.write('*CLS')
         self.write('*RST')
         self.write('OPER')
-    
 
     def query_state(self):
         """
@@ -68,11 +69,11 @@ class VoltageGenerator(Instrument, ABC_VoltageGenerator):
 
     def get_errors(self):
         """Get errors."""
-        return None
+        return
 
     def raise_errors(self):
         """Raise errors present on instrument as exceptions."""
-        return None
+        return
 
     def initial_setup(self, **kwargs):
         """
@@ -114,16 +115,18 @@ class VoltageGenerator(Instrument, ABC_VoltageGenerator):
         super().setup(v_range=v_range, source_level=source_level)
 
         if v_range is not None:
-            raise NotImplementedError('This instrument does not implement v_range. It currently uses auto range.')
+            raise NotImplementedError(
+                'This instrument does not implement v_range. It currently uses auto range.'
+            )
 
         if source_level is not None:
-            msg = 'OUT {:+.10E}V'.format(Decimal(source_level))
+            msg = f'OUT {Decimal(source_level):+.10E}V'
             self.write(msg)
 
 
 if __name__ == '__main__':
     gen = VoltageGenerator('GPIB0::5::INSTR')
     gen.initial_setup()
-    gen.setup(source_level = 1e-3)
+    gen.setup(source_level=1e-3)
     gen.setup(source_level=-1)
     gen._check_method_syntax('setup')

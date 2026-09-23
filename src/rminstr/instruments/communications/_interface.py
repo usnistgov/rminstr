@@ -1,11 +1,13 @@
 """Interface module contains wrappers for pyvisa interfaces."""
 
-import pyvisa as _visa
-import warnings as _wrns
 import time as _time
+import warnings as _wrns
+
+import pyvisa as _visa
+
 from rminstr.instruments.communications import Instrument
 
-__all__ = ['do_after_group_trigger', 'ext_trigger', 'GPIBInterface']
+__all__ = ['GPIBInterface', 'do_after_group_trigger', 'ext_trigger']
 
 
 def do_after_group_trigger(*instruments):

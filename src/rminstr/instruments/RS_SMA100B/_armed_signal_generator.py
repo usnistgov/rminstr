@@ -1,8 +1,9 @@
 """Signal generator implementation of RS_SMA100B."""
 
 import pyvisa as visa
-from rminstr.instruments.measurement_functionalities import ABC_ArmedSignalGenerator
+
 from rminstr.instruments.communications import Instrument, InstrumentError
+from rminstr.instruments.measurement_functionalities import ABC_ArmedSignalGenerator
 
 
 class ArmedSignalGenerator(Instrument, ABC_ArmedSignalGenerator):
@@ -349,7 +350,6 @@ class ArmedSignalGenerator(Instrument, ABC_ArmedSignalGenerator):
         err_code = int(err_str.split(',')[0])
         if err_code != 0:
             raise InstrumentError(err_str)
-        pass
 
     def get_errors(self):
         """

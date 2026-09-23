@@ -1,8 +1,9 @@
 """Anritsu MG3692A signal generator measurement functionality."""
 
 import pyvisa as visa
-from rminstr.instruments.measurement_functionalities import ABC_SignalGenerator
+
 from rminstr.instruments.communications import Instrument, InstrumentError
+from rminstr.instruments.measurement_functionalities import ABC_SignalGenerator
 
 
 class SignalGenerator(Instrument, ABC_SignalGenerator):
@@ -154,7 +155,7 @@ class SignalGenerator(Instrument, ABC_SignalGenerator):
             else:
                 self.write(':OUTPut:STATe 0')
             self.raise_errors()
-    
+
         if AM is not None:
             if AM:
                 self.write(':SOURce:AM:SOURce EXT')
@@ -163,12 +164,12 @@ class SignalGenerator(Instrument, ABC_SignalGenerator):
                 self.write(':AM:STATe 0')
             self.raise_errors()
         if AM_ext_port:
-            print(f"Only one port on {self} for external AM.")
+            print(f'Only one port on {self} for external AM.')
             self.raise_errors()
-        
+
         if AM_ext_sensitivity_percent_per_volt:
-            self.write(f":SOURce:AM:EXT:SENS {AM_ext_sensitivity_percent_per_volt}")
-        
+            self.write(f':SOURce:AM:EXT:SENS {AM_ext_sensitivity_percent_per_volt}')
+
         self.raise_errors()
 
         # sg.write("PTG4") sets pulse to "triggered"
@@ -228,7 +229,7 @@ class SignalGenerator(Instrument, ABC_SignalGenerator):
     def get_frequency(self):
         """Get the frequency."""
         val = self.query(':SOUR:FREQ:CW?')
-        return float(val)*1e-9
+        return float(val) * 1e-9
 
 
 if __name__ == '__main__':
@@ -236,12 +237,13 @@ if __name__ == '__main__':
     sg = SignalGenerator('GPIB1::5::INSTR')
     print(sg.query_state())
     sg.initial_setup()
-    sg.setup(f_GHz = 2.0,
-             dBm = 0.1, 
-             dBm_limit = 1,
-             AM = True,
-             AM_ext_sensitivity_percent_per_volt=10,
-             )
+    sg.setup(
+        f_GHz=2.0,
+        dBm=0.1,
+        dBm_limit=1,
+        AM=True,
+        AM_ext_sensitivity_percent_per_volt=10,
+    )
     sg.get_errors()
     print(sg.get_frequency())
     print(sg.query_state())
