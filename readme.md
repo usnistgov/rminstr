@@ -1,11 +1,4 @@
-# Rocky Mountain Instruments
-
-> [!NOTE]
-> This software is in active and early development by the RF power calibrations service at NIST to support
-> RF power calibrations and the development primary RF power standards. Expect breaking breaking changes as the software
-> evolves. Instrument interfaces are added and tested as needed for the calibration service. Bugs may
-> be present in the instrument interfaces that we are unaware of. Please exercise caution when using interfaces
-> presented in this code.
+# rminstr
 
 This package is a library of instrument control and data recording code.
 Instruments capable of providing the same service have control classes with
