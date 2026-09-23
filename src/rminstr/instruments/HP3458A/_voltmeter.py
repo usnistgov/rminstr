@@ -1,10 +1,16 @@
 """Control the HP3458A as a Voltmeter."""
 
-import pyvisa as visa
 import time
+
 import numpy as np
-from rminstr.instruments.communications import Instrument, get_bit, InstrumentError
-from rminstr.instruments.communications import do_after_group_trigger
+import pyvisa as visa
+
+from rminstr.instruments.communications import (
+    Instrument,
+    InstrumentError,
+    do_after_group_trigger,
+    get_bit,
+)
 from rminstr.instruments.measurement_functionalities import ABC_Voltmeter
 
 

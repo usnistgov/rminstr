@@ -1,3 +1,3 @@
-from ._instrument import Instrument, get_bit, InstrumentError, SettingError
-from ._tsprunner import TSPRunner
+from ._instrument import Instrument, InstrumentError, SettingError, get_bit
 from ._interface import *
+from ._tsprunner import TSPRunner

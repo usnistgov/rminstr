@@ -1,14 +1,16 @@
 """State model definitions all intstruments inherit from."""
 
 import abc
-from inspect import signature, _empty
 from collections import namedtuple
-from rminstr.utilities.timing import Timer
+from inspect import _empty, signature
+
+from rminstr.instruments.communications import InstrumentError
 from rminstr.instruments.measurement_functionalities.common_behaviours import (
     _state_warning,
     log_arguments,
 )
-from rminstr.instruments.communications import InstrumentError
+from rminstr.utilities.timing import Timer
+
 # from instruments.communications.interface import GPIB
 
 
@@ -131,7 +133,7 @@ class SetupOnly(abc.ABC):
         None.
         """
         self.state = 'init'
-        for k in kwargs.keys():
+        for k in kwargs:
             if kwargs[k] is not None:
                 self.initial_setup_settings[k] = kwargs[k]
 
@@ -159,7 +161,7 @@ class SetupOnly(abc.ABC):
         if self.state != 'init' and self.state != 'unarmed':
             _state_warning(self.state, 'setup', __file__, 45, 5)
         self.state = 'unarmed'
-        for k in kwargs.keys():
+        for k in kwargs:
             if kwargs[k] is not None:
                 self.setup_settings[k] = kwargs[k]
 
@@ -379,7 +381,7 @@ class Triggerable(SetupOnly, abc.ABC):
         if self.state != 'unarmed':
             _state_warning(self.state, 'arm', __file__, 45, 5)
         self.state = 'armed'
-        for k in kwargs.keys():
+        for k in kwargs:
             if kwargs[k] is not None:
                 self.arm_settings[k] = kwargs[k]
 
@@ -407,7 +409,7 @@ class Triggerable(SetupOnly, abc.ABC):
         if self.state != 'armed':
             _state_warning(self.state, 'trigger', __file__, 45, 5)
         self.state = 'measuring'
-        for k in kwargs.keys():
+        for k in kwargs:
             if kwargs[k] is not None:
                 self.trigger_settings[k] = kwargs[k]
 
@@ -431,7 +433,7 @@ class Triggerable(SetupOnly, abc.ABC):
         if self.state != 'data_available':
             _state_warning(self.state, 'fetch_data', __file__, 45, 5)
         self.state = 'unarmed'
-        for k in kwargs.keys():
+        for k in kwargs:
             if kwargs[k] is not None:
                 self.fetch_data_settings[k] = kwargs[k]
 

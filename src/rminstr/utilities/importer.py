@@ -1,10 +1,11 @@
 """Importer utilities for calorimeter-python."""
 
+import importlib.util as _ilutil
+import os as _os
+import sys as _sys
 from collections import namedtuple
 from pathlib import Path
-import importlib.util as _ilutil
-import sys as _sys
-import os as _os
+
 import rminstr.instruments.measurement_functionalities as meas_funs
 
 

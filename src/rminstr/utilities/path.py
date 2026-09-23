@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 """Module with custom pathing funcitons."""
 
 import os
 from pathlib import Path
-__all__ = ['validate_path', 'new_local_dir', 'new_dir']
+
+__all__ = ['new_dir', 'new_local_dir', 'validate_path']
 
 
 def validate_path(
@@ -59,7 +59,6 @@ def validate_path(
         msg += '\n'
 
         raise Exception(file + ' exists in multiple locations:\n ' + msg)
-    #
     elif len(matches) == 0:
         msg = ''
         for s in check_dirs:

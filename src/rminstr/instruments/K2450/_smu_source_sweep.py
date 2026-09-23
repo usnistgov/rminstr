@@ -1,9 +1,10 @@
 """SMU source sweep implementation of K2450."""
 
-import pyvisa as visa
-from rminstr.instruments.measurement_functionalities import ABC_SMUSourceSweep
-from rminstr.instruments.communications import TSPRunner, InstrumentError
 import numpy as np
+import pyvisa as visa
+
+from rminstr.instruments.communications import InstrumentError, TSPRunner
+from rminstr.instruments.measurement_functionalities import ABC_SMUSourceSweep
 
 
 def is_iter(x):
@@ -342,7 +343,7 @@ class SMUSourceSweep(TSPRunner, ABC_SMUSourceSweep):
 
         # cast to list if not an iterable, None, or 'auto'
         if (
-            source_trigger_levels != None and source_trigger_levels != 'auto'  # noqa: E711
+            source_trigger_levels is not None and source_trigger_levels != 'auto'
         ) and not is_iter(source_trigger_levels):
             source_trigger_levels = [source_trigger_levels]
 
@@ -599,7 +600,6 @@ class SMUSourceSweep(TSPRunner, ABC_SMUSourceSweep):
         None.
 
         """
-        pass
 
     def get_machine_info(self):
         """
@@ -629,7 +629,6 @@ class SMUSourceSweep(TSPRunner, ABC_SMUSourceSweep):
         None.
 
         """
-        pass
 
 
 # %% Testing

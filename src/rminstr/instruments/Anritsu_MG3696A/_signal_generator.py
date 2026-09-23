@@ -1,8 +1,9 @@
 """Anritsu MG3696A signal generator."""
 
 import pyvisa as visa
-from rminstr.instruments.measurement_functionalities import ABC_SignalGenerator
+
 from rminstr.instruments.communications import Instrument, InstrumentError
+from rminstr.instruments.measurement_functionalities import ABC_SignalGenerator
 
 
 class SignalGenerator(Instrument, ABC_SignalGenerator):
@@ -120,7 +121,7 @@ class SignalGenerator(Instrument, ABC_SignalGenerator):
             dBm=dBm, f_GHz=f_GHz, dBm_limit=dBm_limit, source_on=source_on, **kwargs
         )
         if f_GHz is not None:
-            self.write('CF0 {} GH ACW'.format(f_GHz))
+            self.write(f'CF0 {f_GHz} GH ACW')
 
         if dBm_limit is not None:
             self.dBm_limit = dBm_limit
@@ -134,7 +135,7 @@ class SignalGenerator(Instrument, ABC_SignalGenerator):
                     + str(self.dBm_limit)
                 )
             else:
-                self.write('L0 {} DM'.format(dBm))
+                self.write(f'L0 {dBm} DM')
 
         if source_on is not None:
             if source_on:

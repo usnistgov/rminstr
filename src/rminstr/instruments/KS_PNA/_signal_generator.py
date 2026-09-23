@@ -1,8 +1,9 @@
 """Signal generator implementation of KS_PNA."""
 
 import pyvisa as visa
-from rminstr.instruments.measurement_functionalities import ABC_SignalGenerator
+
 from rminstr.instruments.communications import Instrument, InstrumentError
+from rminstr.instruments.measurement_functionalities import ABC_SignalGenerator
 
 
 class SignalGenerator(Instrument, ABC_SignalGenerator):
@@ -117,9 +118,7 @@ class SignalGenerator(Instrument, ABC_SignalGenerator):
 
         # Configure VNA source
         # Source.write("SOURce:POWer{0}:MODE ON".format(VNA_Port)) # turn the VNA's RF source on
-        self.write(
-            'SOURce:POWer{0}:MODE OFF'.format(port)
-        )  # turn the VNA's RF source off
+        self.write(f'SOURce:POWer{port}:MODE OFF')  # turn the VNA's RF source off
         self.write('SENS:SWE:TYPE CW')
         self.write('SENS:SWE:POIN 3')
         self.write(
@@ -181,16 +180,16 @@ class SignalGenerator(Instrument, ABC_SignalGenerator):
             self.write('SOUR:FREQ:CW ' + str(f_GHz * 1e9))
 
         if dBm is not None:
-            self.write('SOUR:POW {0}'.format(dBm))
+            self.write(f'SOUR:POW {dBm}')
 
         if source_on is not None:
             if source_on:
                 self.write(
-                    'SOURce:POWer{0}:STATe ON'.format(port)
+                    f'SOURce:POWer{port}:STATe ON'
                 )  # turn the source off (ZVA67)
             else:
                 self.write(
-                    'SOURce:POWer{0}:STATe OFF'.format(port)
+                    f'SOURce:POWer{port}:STATe OFF'
                 )  # turn the source off (ZVA67)
 
         self.query('*OPC?')
@@ -234,7 +233,6 @@ class SignalGenerator(Instrument, ABC_SignalGenerator):
         err_code = int(err_str.split(',')[0])
         if err_code != 0:
             raise InstrumentError(err_str)
-        pass
 
     def get_errors(self):
         """

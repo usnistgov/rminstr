@@ -1,12 +1,14 @@
 """Control the LS340 as a temperature controller."""
 
-import pyvisa as visa
 import time
+from functools import wraps
+
+import pyvisa as visa
+
+from rminstr.instruments.communications import Instrument, InstrumentError
 
 # import numpy as np
 from rminstr.instruments.measurement_functionalities import ABC_TemperatureController
-from rminstr.instruments.communications import Instrument, InstrumentError
-from functools import wraps
 
 
 def make_data_available(instrument, fun):
@@ -133,8 +135,6 @@ class TemperatureController(Instrument, ABC_TemperatureController):
         if sensor_units is not None:
             self.write('SUNI ' + sensor_units)
 
-        pass
-
     def query_state(self):
         """
         Check the state of the machine according to state model.
@@ -183,11 +183,9 @@ class TemperatureController(Instrument, ABC_TemperatureController):
     # I did not add super functions as they wont exist
     def arm(self):
         """Arm, placeholder does nothing."""
-        pass
 
     def trigger(self):
         """Arm, placeholder does nothing."""
-        pass
 
     def fetch_data(self):
         """

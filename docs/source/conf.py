@@ -5,10 +5,10 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-from importlib.metadata import version as get_version
-import subprocess
 import itertools
 import os
+import subprocess
+from importlib.metadata import version as get_version
 
 
 def get_all_git_tags():

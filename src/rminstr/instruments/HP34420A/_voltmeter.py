@@ -1,12 +1,13 @@
 """Control the HP34420A as a Voltmeter."""
 
-import pyvisa as visa
-import numpy as np
 import time
-from scipy.interpolate import interp1d
-from rminstr.instruments.measurement_functionalities import ABC_Voltmeter
-from rminstr.instruments.communications import Instrument, get_bit, InstrumentError
 
+import numpy as np
+import pyvisa as visa
+from scipy.interpolate import interp1d
+
+from rminstr.instruments.communications import Instrument, InstrumentError, get_bit
+from rminstr.instruments.measurement_functionalities import ABC_Voltmeter
 
 # Reading Rates
 # These may not be entirely accurate from testing

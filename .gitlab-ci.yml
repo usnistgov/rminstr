@@ -1,8 +1,8 @@
 image: python:3.12.4
 
 stages:
-  - test
   - security
+  - test
   - deploy
 
 
