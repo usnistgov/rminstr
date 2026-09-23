@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Sat Apr 12 07:34:10 2025
 
@@ -6,6 +5,7 @@ Created on Sat Apr 12 07:34:10 2025
 """
 
 from pathlib import Path
+
 from rminstr.data_structures import ExptParameters
 
 LOCAL_MUT = Path(__file__).parents[0] / 'sample_files'
@@ -36,6 +36,7 @@ def test_expt_parameter():
     ep.advance()
     ep.advance()
     assert ep.config['Frequency_GHz'] == 0.2
+
 
 if __name__ == '__main__':
     test_expt_parameter()

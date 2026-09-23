@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 VNA control code for Keysight PNA.
 
@@ -19,15 +18,16 @@ References
 https://www.rohde-schwarz.com/webhelp/zva_html_usermanual_en/zva_html_usermanual_en.html
 """
 
-from rminstr.instruments.measurement_functionalities import ABC_VNA
-from rminstr.instruments.communications import Instrument, get_bit, InstrumentError
+import datetime
+import os
+import re
 
 # import inspect
 import numpy as np
-import datetime
 import pyvisa as visa
-import re
-import os
+
+from rminstr.instruments.communications import Instrument, InstrumentError, get_bit
+from rminstr.instruments.measurement_functionalities import ABC_VNA
 
 # because the notation used by the VNA is hard to remember
 PARAMETER_ALIAS = {
@@ -1369,7 +1369,7 @@ class VNA(Instrument, ABC_VNA):
             waveData['Frequency (GHz)'] = frequencies * 1e-9
             for k, param in zip(range(1, numParams + 1), self.setup_settings['params']):
                 self.write(":CALCulate1:PARameter:SELect 'param%d'" % k)
-                rawdata = self.query(('CALC:DATA? SDATA'))
+                rawdata = self.query('CALC:DATA? SDATA')
                 datastr = rawdata.strip().split(',')
                 # data = np.array(datastr).astype(float)
                 data = np.array(

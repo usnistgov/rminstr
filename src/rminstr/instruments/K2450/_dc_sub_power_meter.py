@@ -1,13 +1,17 @@
-# -*- coding: utf-8 -*-
 """Class for utilizing a K2450 as a DC substituted power meter."""
 
 import time
+from typing import Union
+
 import numpy as np
 import pyvisa as visa
-from rminstr.instruments.communications import TSPRunner, InstrumentError
+
+from rminstr.instruments.communications import (
+    InstrumentError,
+    TSPRunner,
+    do_after_group_trigger,
+)
 from rminstr.instruments.measurement_functionalities import ABC_DCSubPowerMeter
-from rminstr.instruments.communications import do_after_group_trigger
-from typing import Union
 
 
 class DCSubPowerMeter(ABC_DCSubPowerMeter, TSPRunner):
@@ -236,7 +240,7 @@ class DCSubPowerMeter(ABC_DCSubPowerMeter, TSPRunner):
         duration: float = None,
         source_ubound: float = None,
         source_lbound: float = None,
-        source: Union[str, bool] = None,
+        source: str | bool = None,
         source_level: float = None,
         source_range: float = None,
         source_ilimit: float = None,
@@ -613,7 +617,7 @@ class DCSubPowerMeter(ABC_DCSubPowerMeter, TSPRunner):
         @wraps(func)
         def wrapped(*args, **kwargs):
             key = 'stop_measurement'
-            if key in kwargs.keys() and kwargs[key]:
+            if kwargs.get(key):
                 self.visa_resource.assert_trigger()
                 self.wait_until_data_available(timeout=5)
             out = func(*args, **kwargs)
@@ -822,14 +826,10 @@ if __name__ == '__main__':
     for i in np.arange(1, len(err)):
         old = esum
         esum += -ki * err[i] * (t[i] - t[i - 1])
-        if esum > old + diff:
-            esum = old + diff
-        if esum < old - diff:
-            esum = old - diff
-        if esum > ub:
-            esum = ub
-        if esum < lb:
-            esum = lb
+        esum = min(esum, old + diff)
+        esum = max(esum, old - diff)
+        esum = min(esum, ub)
+        esum = max(esum, lb)
         esum_arr.append(esum)
     predicted_source = -kp * err + np.array(esum_arr)
     predicted_source_rnd = np.round(2 * predicted_source, 5) / 2

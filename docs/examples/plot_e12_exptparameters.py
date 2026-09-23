@@ -20,8 +20,9 @@ Single comment lines with a leading ``#`` can be inserted to organize related
 blocks of parameters.
 """
 
-from rminstr.data_structures import ExptParameters
 from pathlib import Path
+
+from rminstr.data_structures import ExptParameters
 
 # lets create a csv file
 # and write it to a file

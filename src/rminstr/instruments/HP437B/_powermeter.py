@@ -1,9 +1,11 @@
 """HP437B powermeter."""
 
-import pyvisa as visa
 import time
+
+import pyvisa as visa
+
+from rminstr.instruments.communications import Instrument, InstrumentError, get_bit
 from rminstr.instruments.measurement_functionalities import ABC_RFPowerMeter
-from rminstr.instruments.communications import Instrument, get_bit, InstrumentError
 
 
 class RFPowerMeter(Instrument, ABC_RFPowerMeter):
@@ -76,11 +78,11 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
         # 1 Place the meter in a known state (often the reset state).
         self.clear_output()
 
-        self.write("*RST")
+        self.write('*RST')
         time.sleep(0.5)
         # self.write("SYST:PRES") # not sure if different
 
-        self.write("*ESE 56")
+        self.write('*ESE 56')
         # self.write("*OPC")  # Send the *OPC? (operation complete query) command and enter the result to assure synchronization.
         # self.write("*CLS")  # remove anything left in the output queue
 
@@ -103,8 +105,8 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
         self.raise_errors()
         # Need this so that the instrument doesnt hang on later setup commands
         time.sleep(0.5)
-        self.write("GT2")  # Group execute behavior, specific to direct comparison
-        self.write("TR0")
+        self.write('GT2')  # Group execute behavior, specific to direct comparison
+        self.write('TR0')
         # self.write("*CLS")
 
     def setup(
@@ -212,7 +214,7 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
                     time.sleep(0.1)  # [s]
                 self.write('OC0EN')  # Reference oscillator off
 
-                print("Cal complete.")
+                print('Cal complete.')
 
         self.raise_errors()
 
@@ -230,9 +232,8 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
         super().arm()
         # 3 Set-up the triggering conditions.
         # self.trigger_source = trigger_source
-        self.write("TR0")
+        self.write('TR0')
         # self.write("*OPC")
-        
 
     def trigger(self):
         """
@@ -249,9 +250,8 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
         )
         # 4 Initiate or arm the meter for a measurement.
         # 5 Trigger the meter to make a measurement.
-        self.write("*TRG")
-        #self.write("*OPC")
-
+        self.write('*TRG')
+        # self.write("*OPC")
 
     def fetch_data(self, p_column_name: str = 'Power (W)') -> dict:
         """
@@ -284,7 +284,9 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
             text = self.read().strip()
         except Exception as e:
             raise e from e
-        text = text.replace('+', '')  # sometimes I get a string that starts with ++ instead of just + (e.g., '++3.6440E-03'). Not sure why. This drops the + signs so that the string can be converted to a float.
+        text = text.replace(
+            '+', ''
+        )  # sometimes I get a string that starts with ++ instead of just + (e.g., '++3.6440E-03'). Not sure why. This drops the + signs so that the string can be converted to a float.
 
         power = float(text)
 
@@ -294,7 +296,6 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
         # clear status byte. Otherwise, trigger will fail state checking
 
         # self.write("*CLS")
-
 
         self.raise_errors()
         return out
@@ -327,10 +328,9 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
 
         stb = int(self.visa_resource.read_stb())
         if get_bit(stb, 32):
-            return self.query("ERR?")
-            
-        return "0"
+            return self.query('ERR?')
 
+        return '0'
 
     def query_state(self) -> str:
         """
@@ -353,8 +353,6 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
         stb = int(self.visa_resource.read_stb())
         if get_bit(stb, 1) and (self.state == 'armed' or self.state == 'measuring'):
             self.state = 'data_available'
-            
-        
 
         return self.state
 

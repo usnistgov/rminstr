@@ -1,10 +1,11 @@
-# -*- coding: utf-8 -*-
 """Control the HP3457A as an ammeter."""
 
-import pyvisa as visa
 import time
+
 import numpy as np
-from rminstr.instruments.communications import Instrument, get_bit, InstrumentError
+import pyvisa as visa
+
+from rminstr.instruments.communications import Instrument, InstrumentError, get_bit
 from rminstr.instruments.measurement_functionalities import ABC_Ammeter
 
 err_table = {

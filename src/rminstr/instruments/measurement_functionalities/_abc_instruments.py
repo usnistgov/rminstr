@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Abstract definitions of measurement functionalities.
 
@@ -10,6 +9,7 @@ model.
 """
 
 import abc
+
 from rminstr.instruments.measurement_functionalities.state_models import (
     SetupOnly,
     Triggerable,

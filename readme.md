@@ -24,24 +24,26 @@ model that can act as a `Voltmeter`,
 
 ```python
 from rminstr.instruments.HP3458A import Voltmeter
+
 vm = Voltmeter('GPIB0::16::INSTR')
 vm.initial_setup()
-vm.setup(v_range = 1)
+vm.setup(v_range=1)
 vm.arm()
 vm.trigger()
-vm.wait_until_data_available(timeout = 10)
+vm.wait_until_data_available(timeout=10)
 data = vm.fetch_data()
 ```
 is identical to the code to interact with a different model of `Voltmeter`.
 
 ```python
 from rminstr.instruments.HP34420A import Voltmeter
+
 vm = Voltmeter('GPIB0::16::INSTR')
 vm.initial_setup()
-vm.setup(v_range = 1)
+vm.setup(v_range=1)
 vm.arm()
 vm.trigger()
-vm.wait_until_data_available(timeout = 10)
+vm.wait_until_data_available(timeout=10)
 data = vm.fetch_data()
 ```
 

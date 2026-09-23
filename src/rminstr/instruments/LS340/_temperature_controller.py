@@ -2,9 +2,10 @@
 
 import pyvisa as visa
 
+from rminstr.instruments.communications import Instrument, InstrumentError
+
 # import numpy as np
 from rminstr.instruments.measurement_functionalities import ABC_TemperatureController
-from rminstr.instruments.communications import Instrument, InstrumentError
 
 
 class TemperatureController(Instrument, ABC_TemperatureController):

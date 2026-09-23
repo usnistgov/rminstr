@@ -11,32 +11,35 @@ This module also contains statistical functions used to evaluate thermal
 stability in the microcalorimeter.
 """
 
-import queue
 import collections
-from dataclasses import dataclass, field
-from collections.abc import Callable, Iterable
 import datetime
-import time
-import pytz
-import numpy as np
-import scipy.stats as st
-import pandas as pd
-import typing
-import socket
+import queue
 import shutil
+import socket
+import time
+import typing
+from collections.abc import Callable, Iterable
+from dataclasses import dataclass, field
+from importlib.metadata import version as get_version
 
 # import warnings
 # from typing import NewType
 from os import listdir, rename
-from os.path import isfile, join, dirname, getmtime
+from os.path import dirname, getmtime, isfile, join
 from pathlib import Path
-from importlib.metadata import version as get_version
+
+import numpy as np
+import pandas as pd
+import pytz
+import scipy.stats as st
+
 from rminstr.utilities.path import validate_path
+
 # from typing import Union
 
 
 try:
-    from git import Repo, InvalidGitRepositoryError
+    from git import InvalidGitRepositoryError, Repo
 
 except ImportError as e:
     print(
@@ -61,11 +64,11 @@ DataArray = Iterable[float]
 
 
 __all__ = [
-    'DataRecord',
-    'TimeSeries',
-    'ExistingRecord',
     'ActiveRecord',
+    'DataRecord',
+    'ExistingRecord',
     'LegacyRecord',
+    'TimeSeries',
     'kendall_p',
     'runs_statistic',
 ]

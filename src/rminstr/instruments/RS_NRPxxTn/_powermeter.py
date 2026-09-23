@@ -1,11 +1,18 @@
 """RS NRP75TWG Powermeter."""
 
-import pyvisa as visa
-import numpy as np
 import time
-from rminstr.instruments.measurement_functionalities import ABC_RFPowerMeter
-from rminstr.instruments.communications import Instrument, InstrumentError, SettingError, get_bit
 from typing import Union
+
+import numpy as np
+import pyvisa as visa
+
+from rminstr.instruments.communications import (
+    Instrument,
+    InstrumentError,
+    SettingError,
+    get_bit,
+)
+from rminstr.instruments.measurement_functionalities import ABC_RFPowerMeter
 
 
 class RFPowerMeter(Instrument, ABC_RFPowerMeter):
@@ -60,8 +67,6 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
 
         # intializing counters and lists for external triggering
         self.arm_settings['trigger_source'] = 'EXT'
-
-        pass
 
     def initial_setup(self, **kwargs):
         """
@@ -132,7 +137,7 @@ class RFPowerMeter(Instrument, ABC_RFPowerMeter):
         integration_time: int = None,
         average_state: int = None,
         zero_once: bool = None,
-        trig_delay: Union[float, str] = None,
+        trig_delay: float | str = None,
         **kwargs,
     ):
         """
@@ -372,7 +377,7 @@ if __name__ == '__main__':
         print(pm.query_state())
         pm.trigger()
         print(pm.query_state())
-        pm.wait_until_data_available(timeout = 10,query_delay = 0.1)
+        pm.wait_until_data_available(timeout=10, query_delay=0.1)
         data = pm.fetch_data()
         print(data)
         print(pm.query_state())
